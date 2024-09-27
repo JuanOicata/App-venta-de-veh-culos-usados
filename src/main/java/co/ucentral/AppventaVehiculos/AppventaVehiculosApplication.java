@@ -10,4 +10,7 @@ public class AppventaVehiculosApplication {
 		SpringApplication.run(AppventaVehiculosApplication.class, args);
 	}
 
+
+
+
 }
