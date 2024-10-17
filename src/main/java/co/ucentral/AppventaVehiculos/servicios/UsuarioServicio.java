@@ -1,7 +1,6 @@
 package co.ucentral.AppventaVehiculos.servicios;
 
 import co.ucentral.AppventaVehiculos.perisitencia.entidades.Usuario;
-//import co.ucentral.AppventaVehiculos.perisitencia.entidades.UsuarioRepositorio;
 import co.ucentral.AppventaVehiculos.perisitencia.repositorios.UsuarioRepositorio;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
