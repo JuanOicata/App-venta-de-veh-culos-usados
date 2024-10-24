@@ -59,12 +59,13 @@
 <body>
 <div class="container">
     <h1>Formulario de Registro</h1>
-    <form action="/registro" method="post">
+    <form th:action="@{/almacenar}" method="post" th:object="${elusuario}">
+
         <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" required>
+        <input type="text" id="nombre" name="nombre" required th:field="*{usuario}">
 
         <label for="contrasena">Contrasena:</label>
-        <input type="password" id="contrasena" name="contrasena" required>
+        <input type="password" id="contrasena" name="contrasena" required th:field="*{contrasena}">
 
         <label for="rol">Rol:</label>
         <select name="rol" id="rol">
