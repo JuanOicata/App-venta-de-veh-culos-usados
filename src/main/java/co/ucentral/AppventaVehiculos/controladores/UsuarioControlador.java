@@ -16,21 +16,21 @@ public class UsuarioControlador {
     @Autowired
     UsuarioServicio usuarioServicio;
 
-    // Método para mostrar el formulario de registro
+    // Mostrar la pestaña registro
     @GetMapping("/registro")
     public String mostrarFormularioDeRegistro(Model model) {
         Usuario usuario = new Usuario();
 
         model.addAttribute("elusuario", usuario);
-        return "registro";  // Nombre del archivo HTML (sin extensión)
+        return "registro";
     }
 
-    // Método para manejar el envío del formulario y registrar el usuario
+    // Registro de usuario y guardar en la base de datos
     @PostMapping("/almacenar")
     public String registrarUsuario(Usuario usuario, Model model) {
         usuarioServicio.registrarUsuario(usuario);
         model.addAttribute("mensaje", "Usuario registrado exitosamente");
-        return "bienvenida";  // Redirige a una página de bienvenida después de registrar
+        return "bienvenida";
 
 
     }
