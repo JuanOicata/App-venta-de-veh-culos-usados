@@ -1,7 +1,8 @@
 package co.ucentral.AppventaVehiculos.servicios;
 
-import co.ucentral.AppventaVehiculos.perisitencia.entidades.Usuario;
-import co.ucentral.AppventaVehiculos.perisitencia.repositorios.UsuarioRepositorio;
+
+import co.ucentral.AppventaVehiculos.persistencia.entidades.Usuario;
+import co.ucentral.AppventaVehiculos.persistencia.repositorio.UsuarioRepositorio;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,4 +32,8 @@ public class UsuarioServicio {
         return true;
     }
 
+    public boolean validarCredenciales(String usuario, String contrasena) {
+        co.ucentral.AppventaVehiculos.persistencia.entidades.Usuario user = usuarioRepositorio.findByUsuarioAndContrasena(usuario, contrasena);
+        return user != null;
+    }
 }
