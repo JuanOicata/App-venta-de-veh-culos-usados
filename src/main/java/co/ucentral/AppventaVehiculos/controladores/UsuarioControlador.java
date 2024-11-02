@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @AllArgsConstructor
@@ -20,22 +21,20 @@ public class UsuarioControlador {
     @GetMapping("/registro")
     public String mostrarFormularioDeRegistro(Model model) {
         Usuario usuario = new Usuario();
-
         model.addAttribute("elusuario", usuario);
         return "registro";
     }
 
     // Registro de usuario y guardar en la base de datos
     @PostMapping("/almacenar")
-    public String registrarUsuario(Usuario usuario, Model model) {
+    public String registrarUsuario(@ModelAttribute ("elusuario") Usuario usuario, Model model) {
         usuarioServicio.registrarUsuario(usuario);
         model.addAttribute("mensaje", "Usuario registrado exitosamente");
-        return "bienvenida";
 
-
+        model.addAttribute("elusuario", usuario);
+        return "registro"; // vuelve a la pestaña regsitro
     }
-
-    @GetMapping("/iniciosesion")
+    @GetMapping("/inicio-sesion")
     public String mostrarFormularioDeInicioSesion() {
         return "inicioSesion";
     }
@@ -45,10 +44,10 @@ public class UsuarioControlador {
         boolean esValido = usuarioServicio.validarCredenciales(usuario.getUsuario(), usuario.getContrasena());
         if (esValido) {
             model.addAttribute("mensaje", "Inicio de sesión exitoso");
-            return "bienvenida";  // Redirige a la página principal después de iniciar sesión
+            return "registro-vehiculo";  // manda para la pagina principal
         } else {
             model.addAttribute("mensaje", "Credenciales incorrectas");
-            return "inicioSesion";  // Mantiene al usuario en la página de inicio de sesión
+            return "inicioSesion";  // Se queda en la pagina de inicio de sesion en caso de error
         }
     }
 
