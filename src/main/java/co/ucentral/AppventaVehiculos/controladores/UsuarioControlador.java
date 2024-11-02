@@ -50,5 +50,9 @@ public class UsuarioControlador {
             return "inicioSesion";  // Se queda en la pagina de inicio de sesion en caso de error
         }
     }
+    @GetMapping("/registro-vehiculo")
+    public String mostrarFormularioDeRegistroVehiculo() {
+        return "registrovehiculo";
+    }
 
 }

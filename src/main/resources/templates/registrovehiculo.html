@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Inicio de Sesion</title>
+    <title>Registro Vehículo</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -18,7 +18,7 @@
             padding: 50px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 300px;
+            width: 350px;
             text-align: center;
         }
         h1 {
@@ -30,7 +30,7 @@
             margin-top: 10px;
             text-align: left;
         }
-        input {
+        input, textarea {
             width: 100%;
             padding: 10px;
             margin-top: 5px;
@@ -47,26 +47,47 @@
             cursor: pointer;
             width: 100%;
             margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         button:hover {
             background-color: #1507ad;
+        }
+        .plus {
+            margin-right: 8px;
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <h1>Inicio de Sesion</h1>
-    <form action="/inicio-sesion" method="post">
-        <label for="usuario">Usuario:</label>
-        <input type="text" id="usuario" name="usuario" required>
+    <h1>Registro Vehiculo</h1>
+    <form action="/registro-vehiculo" method="post" enctype="multipart/form-data">
+        <label for="marca">Marca:</label>
+        <input type="text" id="marca" name="marca" required>
 
-        <label for="contrasena">Contraseña:</label>
-        <input type="password" id="contrasena" name="contrasena" required>
+        <label for="modelo">Modelo:</label>
+        <input type="text" id="modelo" name="modelo" required>
 
-        <button type="submit">Iniciar Sesión</button>
+        <label for="fecha">Fecha:</label>
+        <input type="text" id="fecha" name="fecha" required pattern="\d{4}">
+
+        <label for="kilometraje">Kilometraje:</label>
+        <input type="text" id="kilometraje" name="kilometraje" required>
+
+        <label for="precio">Precio:</label>
+        <input type="text" id="precio" name="precio" required>
+
+        <label for="descripcion">Descripcion:</label>
+        <textarea id="descripcion" name="descripcion" rows="3" required></textarea>
+
+        <label for="foto">Cargar Foto:</label>
+        <input type="file" id="foto" name="foto" accept="image/*" required>
+
+        <button type="submit"><span class="plus">+</span>Registrar Vehiculo</button>
     </form>
     <p th:text="${mensaje}"></p>
-    <button type="button" onclick="window.location.href='/registro'">Ir a Registro</button>
+
 </div>
 </body>
 </html>
