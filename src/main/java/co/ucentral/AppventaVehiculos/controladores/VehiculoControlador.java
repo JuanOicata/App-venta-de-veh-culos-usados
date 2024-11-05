@@ -17,15 +17,14 @@ public class VehiculoControlador {
     @Autowired
     VehiculoServicio vehiculoServicio;
 
-    // Mostrar la página de registro de vehículos
+    // Carga el formulario de registro de vehículo
     @GetMapping("/registro-vehiculo")
-    public String mostrarFormularioDeRegistroVehiculo(Model model) {
-        Vehiculo vehiculo = new Vehiculo();
-        model.addAttribute("vehiculo", vehiculo);
+    public String mostrarFormulario(Model model) {
+        model.addAttribute("vehiculo", new Vehiculo());
         return "registro-vehiculo";
     }
 
-    // Guardar el vehículo en la base de datos
+    // Maneja el envío del formulario y guarda el vehículo
     @PostMapping("/almacenar-vehiculo")
     public String registrarVehiculo(@ModelAttribute("vehiculo") Vehiculo vehiculo, Model model) {
         vehiculoServicio.registrarVehiculo(vehiculo);

@@ -35,5 +35,4 @@ public class VehiculoServicio {
         }
     }
 
-    // Puedes agregar más métodos según las necesidades del negocio, como actualizar o buscar por criterios específicos.
 }
