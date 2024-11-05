@@ -22,7 +22,6 @@ public class UsuarioServicio {
         List<Usuario> listado = (List<Usuario>) usuarioRepositorio.findAll();
         return listado;
     }
-
     public boolean borrar(Usuario usuario){
         try{
             usuarioRepositorio.delete(usuario);
@@ -32,18 +31,9 @@ public class UsuarioServicio {
         return true;
     }
 
-    /*public boolean validarCredenciales(String usuario, String contrasena) {
+    public boolean validarCredenciales(String usuario, String contrasena) {
         co.ucentral.AppventaVehiculos.persistencia.entidades.Usuario user = usuarioRepositorio.findByUsuarioAndContrasena(usuario, contrasena);
         return user != null;
-    }*/
-    public boolean validarCredenciales(String usuario, String contrasena) {
-        Usuario user = usuarioRepositorio.findByUsuarioAndContrasena(usuario, contrasena);
-        if (user != null) {
-            System.out.println("Usuario encontrado: " + user.getUsuario());
-            return true;
-        } else {
-            System.out.println("Usuario no encontrado o credenciales incorrectas.");
-            return false;
-        }
     }
+
 }
