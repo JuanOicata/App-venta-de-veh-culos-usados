@@ -31,9 +31,23 @@ public class UsuarioServicio {
         return true;
     }
 
-    public boolean validarCredenciales(String usuario, String contrasena) {
-        co.ucentral.AppventaVehiculos.persistencia.entidades.Usuario user = usuarioRepositorio.findByUsuarioAndContrasena(usuario, contrasena);
-        return user != null;
+    public Usuario validarUsuario(String nombreUsuario, String contrasena) {
+        // Buscar el usuario por su nombre de usuario
+        Usuario usuarioEncontrado = usuarioRepositorio.findByUsuario(nombreUsuario).orElse(null);
+
+        if (usuarioEncontrado != null) {
+            // Verificar que la contraseña coincida
+            if (usuarioEncontrado.getContrasena().equals(contrasena)) {
+                // Si la contraseña es correcta, imprimir el nombre del usuario
+                System.out.println("Usuario autenticado: " + usuarioEncontrado.getUsuario());
+                return usuarioEncontrado;  // Retornar el usuario autenticado
+            } else {
+                System.out.println("Contraseña incorrecta");
+            }
+        } else {
+            System.out.println("Usuario no encontrado");
+        }
+        return null;
     }
 
 }

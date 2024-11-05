@@ -32,6 +32,9 @@ public class VehiculoControlador {
         model.addAttribute("mensaje", "Vehículo registrado exitosamente");
         return "registro-vehiculo"; // Retorna a la misma página después del registro
     }
-
+    @GetMapping("/pantalla-vendedor")
+    public String mostrarFormularioDeVendedor(Model model) {
+        return "pantallaVendedor";
+    }
 
 }
