@@ -38,9 +38,4 @@ public class Vehiculo {
     @Column(name = "veh_descripcion", nullable = true, length = 500)
     private String descripcion;
 
-    @Lob
-    @Column(name = "veh_imagen", nullable = true)
-    private byte[] imagen;
-    //byte un string en base 64
-    //crear una base de datos aparte para solo las fotos
 }
