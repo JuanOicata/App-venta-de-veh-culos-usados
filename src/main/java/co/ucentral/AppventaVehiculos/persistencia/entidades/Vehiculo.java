@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.time.LocalDate;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -38,4 +39,6 @@ public class Vehiculo {
     @Column(name = "veh_descripcion", nullable = true, length = 500)
     private String descripcion;
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "vehiculo", cascade = CascadeType.ALL)
+    private List<Imagen> imagenes;
 }
