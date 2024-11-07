@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -14,6 +16,7 @@ import java.util.List;
 @Getter
 @Table(name = "vehiculos")
 @Entity
+
 public class Vehiculo {
 
     @Id
@@ -27,6 +30,7 @@ public class Vehiculo {
     @Column(name = "veh_modelo", nullable = false)
     private String modelo;
 
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     @Column(name = "veh_fecha", nullable = false)
     private LocalDate fecha;
 

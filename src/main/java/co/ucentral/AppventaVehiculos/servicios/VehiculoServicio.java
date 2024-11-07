@@ -15,9 +15,12 @@ public class VehiculoServicio {
     @Autowired
     VehiculoRepositorio vehiculoRepositorio;
 
-    // Registrar un vehículo en la base de datos
     public void registrarVehiculo(Vehiculo vehiculo) {
         vehiculoRepositorio.save(vehiculo);
+    }
+
+    public List<Vehiculo> obtenerTodosLosVehiculos() {
+        return (List<Vehiculo>) vehiculoRepositorio.findAll();
     }
 
     // Obtener todos los vehículos

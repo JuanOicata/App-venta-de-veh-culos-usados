@@ -19,7 +19,7 @@ public class UsuarioControlador {
     UsuarioServicio usuarioServicio;
 
     // Mostrar la pestaña registro
-    @GetMapping("/")
+    @GetMapping("/registro")
     public String mostrarFormularioDeRegistro(Model model) {
         Usuario usuario = new Usuario();
         model.addAttribute("elusuario", usuario);
