@@ -139,6 +139,31 @@
         form button:hover {
             background-color: #2c3e50;
         }
+
+        .image-form {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .image-form input[type="file"] {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        .image-form button {
+            background-color: #1a2b37;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -146,6 +171,7 @@
 <div class="container">
     <div class="sidebar">
         <button id="btnRegistrar">Registrar Vehículo</button>
+        <button id="btnAgregarImagen">Agregar Imagen</button>
         <button>Editar Vehículo</button>
         <button>Eliminar Vehículo</button>
     </div>
@@ -182,6 +208,7 @@
     </div>
 </div>
 
+<!-- Modal Registrar Vehículo -->
 <div id="modalRegistrar" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
@@ -211,24 +238,61 @@
     </div>
 </div>
 
-<script>
-    var modal = document.getElementById("modalRegistrar");
-    var btnRegistrar = document.getElementById("btnRegistrar");
-    var span = document.getElementsByClassName("close")[0];
+<!-- Formulario para agregar imagen -->
+<div id="modalAgregarImagen" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Agregar Imagen al Vehículo</h2>
+        <form class="image-form" th:action="@{/agregar-imagen}" method="post" enctype="multipart/form-data">
+            <!-- Campo oculto para enviar el ID del vehículo -->
+            <input type="hidden" name="vehiculoId" th:value="${vehiculo.id}" />
+            <label for="imagen">Seleccionar Imagen:</label>
+            <input type="file" id="imagen" name="imagen" accept="image/*" required />
+            <label for="descripcion">Descripción:</label>
+            <input type="text" id="descripcion" name="descripcion" required />
+            <button type="submit">Subir Imagen</button>
+        </form>
+    </div>
+</div>
 
+<script>
+    var modalRegistrar = document.getElementById("modalRegistrar");
+    var btnRegistrar = document.getElementById("btnRegistrar");
+    var spanRegistrar = document.getElementsByClassName("close")[0];
+
+    var modalImagen = document.getElementById("modalAgregarImagen");
+    var btnImagen = document.getElementById("btnAgregarImagen");
+    var spanImagen = document.getElementsByClassName("close")[1];
+
+    // Mostrar modal de registro
     btnRegistrar.onclick = function() {
-        modal.style.display = "block";
+        modalRegistrar.style.display = "block";
     }
 
-    span.onclick = function() {
-        modal.style.display = "none";
+    // Mostrar modal de agregar imagen
+    btnImagen.onclick = function() {
+        modalImagen.style.display = "block";
+    }
+
+    // Cerrar el modal de registro
+    spanRegistrar.onclick = function() {
+        modalRegistrar.style.display = "none";
+    }
+
+    // Cerrar el modal de agregar imagen
+    spanImagen.onclick = function() {
+        modalImagen.style.display = "none";
     }
 
     window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
+        if (event.target == modalRegistrar) {
+            modalRegistrar.style.display = "none";
+        }
+        if (event.target == modalImagen) {
+            modalImagen.style.display = "none";
         }
     }
 </script>
+
 </body>
 </html>
