@@ -140,6 +140,7 @@
             background-color: #2c3e50;
         }
 
+        /* Estilos adicionales para el formulario de imágenes */
         .image-form {
             margin-top: 20px;
             display: flex;
@@ -243,13 +244,9 @@
     <div class="modal-content">
         <span class="close">&times;</span>
         <h2>Agregar Imagen al Vehículo</h2>
-        <form class="image-form" th:action="@{/agregar-imagen}" method="post" enctype="multipart/form-data">
-            <!-- Campo oculto para enviar el ID del vehículo -->
-            <input type="hidden" name="vehiculoId" th:value="${vehiculo.id}" />
+        <form class="image-form" action="/agregar-imagen" method="post" enctype="multipart/form-data">
             <label for="imagen">Seleccionar Imagen:</label>
             <input type="file" id="imagen" name="imagen" accept="image/*" required />
-            <label for="descripcion">Descripción:</label>
-            <input type="text" id="descripcion" name="descripcion" required />
             <button type="submit">Subir Imagen</button>
         </form>
     </div>
@@ -274,12 +271,11 @@
         modalImagen.style.display = "block";
     }
 
-    // Cerrar el modal de registro
+    // Cerrar modales
     spanRegistrar.onclick = function() {
         modalRegistrar.style.display = "none";
     }
 
-    // Cerrar el modal de agregar imagen
     spanImagen.onclick = function() {
         modalImagen.style.display = "none";
     }

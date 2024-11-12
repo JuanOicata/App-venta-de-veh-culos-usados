@@ -1,11 +1,8 @@
 package co.ucentral.AppventaVehiculos.controladores;
 
 import co.ucentral.AppventaVehiculos.persistencia.entidades.Imagen;
-import co.ucentral.AppventaVehiculos.persistencia.entidades.Vehiculo;
-import co.ucentral.AppventaVehiculos.servicio.VehiculoServicio;
-import co.ucentral.AppventaVehiculos.servicio.ImagenServicio;
-import co.ucentral.AppventaVehiculos.servicios.ImagenServicio;
 import co.ucentral.AppventaVehiculos.servicios.VehiculoServicio;
+import co.ucentral.AppventaVehiculos.servicios.ImagenServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
