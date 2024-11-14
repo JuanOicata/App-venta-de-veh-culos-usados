@@ -41,4 +41,8 @@ public class VehiculoControlador {
         model.addAttribute("vehiculos", vehiculoServicio.obtenerTodosLosVehiculos()); // Obtener y mostrar vehículos
         return "pantallaVendedor"; // Renderizar la página
     }
+    @GetMapping("/pantalla-comprador")
+    public String mostrarFormularioDeComprador(Model model) {
+        return "pantallaComprador"; // Renderizar la página
+    }
 }
