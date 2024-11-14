@@ -52,7 +52,7 @@ public class UsuarioControlador {
                 case "vendedor":
                     return "redirect:/pantalla-vendedor";  // Redirige a la página del vendedor
                 case "comprador":
-                    return "redirect:/pantallaComprador";  // Redirige a la página del comprador
+                    return "redirect:/pantalla-comprador";  // Redirige a la página del comprador
                 default:
                     model.addAttribute("error", "Rol no reconocido");
                     return "iniciosesion";  // Redirige al login si el rol no es reconocido
@@ -62,4 +62,5 @@ public class UsuarioControlador {
             return "iniciosesion";  // Redirige al login si la autenticación falla
         }
     }
+
 }
