@@ -1,5 +1,6 @@
 package co.ucentral.AppventaVehiculos.servicios;
 
+import co.ucentral.AppventaVehiculos.persistencia.entidades.Usuario;
 import co.ucentral.AppventaVehiculos.persistencia.entidades.Vehiculo;
 import co.ucentral.AppventaVehiculos.persistencia.repositorio.VehiculoRepositorio;
 import lombok.AllArgsConstructor;
@@ -53,5 +54,7 @@ public class VehiculoServicio {
             return false; // Error al eliminar el vehículo
         }
     }
-
+    public List<Vehiculo> obtenerVehiculosPorUsuario(Usuario usuario) {
+        return vehiculoRepositorio.findByUsuario(usuario);
+    }
 }

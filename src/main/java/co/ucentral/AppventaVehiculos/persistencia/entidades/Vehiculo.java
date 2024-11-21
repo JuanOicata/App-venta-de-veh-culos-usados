@@ -19,6 +19,7 @@ import java.util.List;
 
 public class Vehiculo {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "veh_id")
@@ -45,4 +46,8 @@ public class Vehiculo {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "vehiculo", cascade = CascadeType.ALL)
     private List<Imagen> imagenes;
+
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
 }

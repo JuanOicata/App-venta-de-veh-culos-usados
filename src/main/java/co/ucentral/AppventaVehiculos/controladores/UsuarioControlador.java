@@ -2,6 +2,7 @@ package co.ucentral.AppventaVehiculos.controladores;
 
 import co.ucentral.AppventaVehiculos.persistencia.entidades.Usuario;
 import co.ucentral.AppventaVehiculos.servicios.UsuarioServicio;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,12 +42,13 @@ public class UsuarioControlador {
     }
 
     @PostMapping("/inicio-sesion")
-    public String iniciarSesion(@RequestParam String usuario, @RequestParam String contrasena, Model model) {
-        // Llamar al servicio para autenticar al usuario
+    public String iniciarSesion(@RequestParam String usuario, @RequestParam String contrasena, Model model, HttpServletRequest request) {
         Usuario usuarioAutenticado = usuarioServicio.validarUsuario(usuario, contrasena);
 
-        // Verificar si el usuario fue encontrado y autenticado correctamente
         if (usuarioAutenticado != null) {
+            // Guardar el usuario logueado en la sesión
+            request.getSession().setAttribute("usuario", usuarioAutenticado);
+
             // Redirigir según el rol del usuario
             switch (usuarioAutenticado.getRol()) {
                 case "vendedor":
@@ -59,8 +61,9 @@ public class UsuarioControlador {
             }
         } else {
             model.addAttribute("error", "Usuario o contraseña incorrectos");
-            return "iniciosesion";  // Redirige al login si la autenticación falla
+            return "inicioSesion";  // Redirige al login si la autenticación falla
         }
     }
+
 
 }
