@@ -297,29 +297,28 @@
     <div class="modal-content">
         <span class="close" id="closeRegistrar">&times;</span>
         <h2>Registro Vehículo</h2>
-        <form th:action="@{/almacenar-vehiculo}" method="post" th:object="${elvehiculo}">
-            <label for="marcaRegistrar">Marca:</label>
-            <input type="text" th:field="*{marca}" id="marcaRegistrar" name="marca" required />
+        <form th:action="@{/almacenar-vehiculo}" th:object="${elvehiculo}" method="post">
+            <label for="marca">Marca:</label>
+            <input type="text" id="marca" th:field="*{marca}" required>
 
-            <label for="modeloRegistrar">Modelo:</label>
-            <input type="text" th:field="*{modelo}" id="modeloRegistrar" name="modelo" required />
+            <label for="modelo">Modelo:</label>
+            <input type="text" id="modelo" th:field="*{modelo}" required>
 
-            <label for="fechaRegistrar">Fecha (DD/MM/YYYY):</label>
-            <input type="text" th:field="*{fecha}" id="fechaRegistrar" name="fecha" required
-                   pattern="\d{2}/\d{2}/\d{4}" placeholder="DD/MM/YYYY"
-                   title="Formato: DD/MM/YYYY (ej.21/01/2000)" />
+            <label for="fecha">Fecha:</label>
+            <input type="date" id="fecha" th:field="*{fecha}" required>
 
-            <label for="kilometrajeRegistrar">Kilometraje:</label>
-            <input type="text" th:field="*{kilometraje}" id="kilometrajeRegistrar" name="kilometraje" required />
+            <label for="kilometraje">Kilometraje:</label>
+            <input type="number" id="kilometraje" th:field="*{kilometraje}" required>
 
-            <label for="precioRegistrar">Precio:</label>
-            <input type="text" th:field="*{precio}" id="precioRegistrar" name="precio" required />
+            <label for="precio">Precio:</label>
+            <input type="number" id="precio" th:field="*{precio}" required>
 
-            <label for="descripcionRegistrar">Descripción:</label>
-            <textarea th:field="*{descripcion}" id="descripcionRegistrar" name="descripcion" rows="3" required></textarea>
+            <label for="descripcion">Descripción:</label>
+            <textarea id="descripcion" th:field="*{descripcion}" required></textarea>
 
             <button type="submit">Registrar Vehículo</button>
         </form>
+
     </div>
 </div>
 

@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.List;
+
 @AllArgsConstructor
 @Controller
 public class VehiculoControlador {
@@ -23,12 +25,19 @@ public class VehiculoControlador {
     // Maneja el envío del formulario y guarda el vehículo
     @PostMapping("/almacenar-vehiculo")
     public String registrarVehiculo(@ModelAttribute("elvehiculo") Vehiculo vehiculo, Model model) {
-        vehiculoServicio.registrarVehiculo(vehiculo);
-        model.addAttribute("mensaje", "Vehículo registrado exitosamente");
-        model.addAttribute("elvehiculo", new Vehiculo()); // Limpiar el formulario
-        model.addAttribute("vehiculos", vehiculoServicio.obtenerTodosLosVehiculos()); // Obtener y mostrar vehículos
-        return "pantallaVendedor"; // Redirigir a la misma página
+        try {
+            vehiculoServicio.registrarVehiculo(vehiculo);
+            model.addAttribute("mensaje", "Vehículo registrado exitosamente");
+            model.addAttribute("elvehiculo", new Vehiculo());
+            model.addAttribute("vehiculos", vehiculoServicio.obtenerTodosLosVehiculos());
+            return "pantallaVendedor";
+        } catch (Exception e) {
+            model.addAttribute("mensaje", "Error al registrar el vehículo: " + e.getMessage());
+            return "pantallaVendedor";
+        }
     }
+
+
 
     // Método para mostrar la página inicial del vendedor con la lista de vehículos
     @GetMapping("/pantalla-vendedor")
@@ -84,7 +93,11 @@ public class VehiculoControlador {
     }
     @GetMapping("/pantalla-comprador")
     public String mostrarFormularioDeComprador(Model model) {
+        // Obtener todos los vehículos y pasarlos al modelo
+        List<Vehiculo> vehiculos = vehiculoServicio.obtenerTodosLosVehiculos();
+        model.addAttribute("vehiculos", vehiculos);
 
         return "pantallaComprador";
     }
+
 }
