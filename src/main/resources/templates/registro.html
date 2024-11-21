@@ -70,7 +70,10 @@
     <form th:action="@{/almacenar}" method="post" th:object="${elusuario}">
 
         <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" required th:field="*{usuario}">
+        <input type="text" id="nombre" name="nombre" required th:field="*{nombre}">
+
+        <label for="usuario">Usuario:</label>
+        <input type="text" id="usuario" name="usuario" required th:field="*{usuario}">
 
         <label for="contrasena">Contrasena:</label>
         <input type="password" id="contrasena" name="contrasena" required th:field="*{contrasena}">

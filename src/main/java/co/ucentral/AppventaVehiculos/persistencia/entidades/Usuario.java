@@ -25,6 +25,9 @@ public class Usuario {
     @Column(name = "usu_contrasena", nullable = false)
     private String contrasena;
 
+    @Column(name = "usu_nombre", nullable = false)
+    private String nombre;
+
     @Column(name = "usu_rol", nullable = false)
     private String rol;
 }
