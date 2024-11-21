@@ -139,6 +139,34 @@
         form button:hover {
             background-color: #2c3e50;
         }
+        /* Estilos para los botones de editar y eliminar */
+.edit-button, .delete-button {
+    background-color: #1a2b37; /* Color de fondo similar al resto del diseño */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 5px; /* Espaciado superior */
+}
+
+.edit-button:hover {
+    background-color: #2980b9; /* Color más claro para el hover */
+}
+
+.delete-button {
+    background-color: #7d0606; /* Rojo fuerte para el botón de eliminar */
+}
+
+.delete-button:hover {
+    background-color: #c0392b; /* Rojo más oscuro en hover */
+}
+
+.delete-button:focus, .edit-button:focus {
+    outline: none; /* Remueve el contorno cuando se hace clic */
+}
 
         /* Estilos adicionales para el formulario de imágenes */
         .image-form {
@@ -209,6 +237,7 @@
 
     <div class="main-content">
         <h1>Gestión de Vehículos - Vendedor</h1>
+
         <p>Aquí podrás registrar, editar y eliminar vehículos.</p>
 
         <!-- Mensaje de éxito -->
@@ -235,16 +264,27 @@
                     <td th:text="${vehiculo.precio}"></td>
                     <td th:text="${vehiculo.descripcion}"></td>
                     <td>
-                        <button type="button" class="edit-button"
-                                th:data-id="${vehiculo.id}"
-                                th:data-marca="${vehiculo.marca}"
-                                th:data-modelo="${vehiculo.modelo}"
-                                th:data-fecha="${vehiculo.fecha}"
-                                th:data-kilometraje="${vehiculo.kilometraje}"
-                                th:data-precio="${vehiculo.precio}"
-                                th:data-descripcion="${vehiculo.descripcion}">
-                            Editar
-                        </button>
+                        <!-- Contenedor para los botones -->
+                        <div class="action-buttons">
+                            <!-- Botón de Editar -->
+                            <button type="button" class="edit-button"
+                                    th:data-id="${vehiculo.id}"
+                                    th:data-marca="${vehiculo.marca}"
+                                    th:data-modelo="${vehiculo.modelo}"
+                                    th:data-fecha="${vehiculo.fecha}"
+                                    th:data-kilometraje="${vehiculo.kilometraje}"
+                                    th:data-precio="${vehiculo.precio}"
+                                    th:data-descripcion="${vehiculo.descripcion}">
+                                Editar
+                            </button>
+
+                            <!-- Botón de Eliminar -->
+                            <a th:href="@{/eliminar-vehiculo/{id}(id=${vehiculo.id})}"
+                               class="delete-button"
+                               onclick="return confirm('¿Estás seguro de que deseas eliminar este vehículo?');">
+                                Eliminar
+                            </a>
+                        </div>
                     </td>
                 </tr>
             </table>

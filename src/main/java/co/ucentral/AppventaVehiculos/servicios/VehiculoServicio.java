@@ -37,12 +37,20 @@ public class VehiculoServicio {
     }
 
     // Eliminar un vehículo
-    public boolean borrarVehiculo(Vehiculo vehiculo) {
+    public boolean borrarVehiculo(Long id) {
         try {
+            // Verificar si el vehículo existe antes de intentar eliminarlo
+            Vehiculo vehiculo = vehiculoRepositorio.findById(id).orElse(null);
+            if (vehiculo == null) {
+                return false; // El vehículo no existe
+            }
+
             vehiculoRepositorio.delete(vehiculo);
-            return true;
+            return true; // Vehículo eliminado exitosamente
         } catch (Exception e) {
-            return false;
+            // Registrar el error para diagnóstico si es necesario
+            e.printStackTrace();
+            return false; // Error al eliminar el vehículo
         }
     }
 

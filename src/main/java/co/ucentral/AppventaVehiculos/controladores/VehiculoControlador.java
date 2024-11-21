@@ -62,4 +62,21 @@ public class VehiculoControlador {
         model.addAttribute("vehiculos", vehiculoServicio.obtenerTodosLosVehiculos());
         return "pantallaVendedor";
     }
+    // Eliminar un vehículo
+    @GetMapping("/eliminar-vehiculo/{id}")
+    public String eliminarVehiculo(@PathVariable Long id, Model model) {
+        boolean eliminado = vehiculoServicio.borrarVehiculo(id);
+
+        if (eliminado) {
+            model.addAttribute("mensaje", "Vehículo eliminado exitosamente");
+        } else {
+            model.addAttribute("mensaje", "Error al eliminar el vehículo");
+        }
+
+        // Obtener la lista actualizada de vehículos
+        model.addAttribute("vehiculos", vehiculoServicio.obtenerTodosLosVehiculos());
+        return "redirect:/pantalla-vendedor"; // Volver a la página del vendedor con la lista actualizada
+    }
+
+
 }
