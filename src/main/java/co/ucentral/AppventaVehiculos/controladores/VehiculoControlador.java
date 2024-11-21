@@ -2,6 +2,7 @@ package co.ucentral.AppventaVehiculos.controladores;
 
 import co.ucentral.AppventaVehiculos.persistencia.entidades.Vehiculo;
 import co.ucentral.AppventaVehiculos.servicios.VehiculoServicio;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,14 @@ public class VehiculoControlador {
     @Autowired
     VehiculoServicio vehiculoServicio;
 
+    @GetMapping("/cerrar-sesion")
+    public String cerrarSesion(HttpServletRequest request) {
+        // Invalidar la sesión del usuario
+        request.getSession().invalidate();
+
+        // Redirigir a la página de inicio de sesión
+        return "redirect:/inicio-sesion";
+    }
     // Maneja el envío del formulario y guarda el vehículo
     @PostMapping("/almacenar-vehiculo")
     public String registrarVehiculo(@ModelAttribute("elvehiculo") Vehiculo vehiculo, Model model) {

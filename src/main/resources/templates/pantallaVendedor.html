@@ -203,7 +203,8 @@
 <div class="container">
     <div class="sidebar">
         <button id="btnRegistrar">Registrar Vehículo</button>
-        <button>Eliminar Vehículo</button>
+        <button id="btnSalir">Cerrar sesion</button>
+
     </div>
 
     <div class="main-content">
@@ -362,6 +363,9 @@
         if (event.target == modalEditar) {
             modalEditar.style.display = "none";
         }
+        document.getElementById("btnSalir").onclick = function () {
+    window.location.href = "/cerrar-sesion";  // Esto invoca el método que cierra la sesión
+};
     }
 </script>
 </body>
