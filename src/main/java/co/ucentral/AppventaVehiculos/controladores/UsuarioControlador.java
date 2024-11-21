@@ -55,7 +55,7 @@ public class UsuarioControlador {
                     return "redirect:/pantalla-comprador";  // Redirige a la página del comprador
                 default:
                     model.addAttribute("error", "Rol no reconocido");
-                    return "iniciosesion";  // Redirige al login si el rol no es reconocido
+                    return "inicioSesion";  // Redirige al login si el rol no es reconocido
             }
         } else {
             model.addAttribute("error", "Usuario o contraseña incorrectos");

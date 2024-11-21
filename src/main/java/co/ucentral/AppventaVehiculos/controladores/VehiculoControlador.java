@@ -19,14 +19,7 @@ public class VehiculoControlador {
     @Autowired
     VehiculoServicio vehiculoServicio;
 
-    @GetMapping("/cerrar-sesion")
-    public String cerrarSesion(HttpServletRequest request) {
-        // Invalidar la sesión del usuario
-        request.getSession().invalidate();
-
-        // Redirigir a la página de inicio de sesión
-        return "redirect:/inicio-sesion";
-    }
+    /////////// PANTALLA VENDEDOR /////////////////
     // Maneja el envío del formulario y guarda el vehículo
     @PostMapping("/almacenar-vehiculo")
     public String registrarVehiculo(@ModelAttribute("elvehiculo") Vehiculo vehiculo, Model model) {
@@ -80,5 +73,18 @@ public class VehiculoControlador {
     }
 
 
+    /////////// PANTALLA VENDEDOR /////////////////
+    @GetMapping("/cerrar-sesion")
+    public String cerrarSesion(HttpServletRequest request) {
+        // Invalidar la sesión del usuario
+        request.getSession().invalidate();
 
+        // Redirigir a la página de inicio de sesión
+        return "redirect:/inicio-sesion";
+    }
+    @GetMapping("/pantalla-comprador")
+    public String mostrarFormularioDeComprador(Model model) {
+
+        return "pantallaComprador";
+    }
 }
