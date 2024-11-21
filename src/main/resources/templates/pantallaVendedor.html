@@ -200,11 +200,9 @@
     </style>
 </head>
 <body>
-
 <div class="container">
     <div class="sidebar">
         <button id="btnRegistrar">Registrar Vehículo</button>
-        <button>Editar Vehículo</button>
         <button>Eliminar Vehículo</button>
     </div>
 
@@ -226,14 +224,27 @@
                     <th>Kilometraje</th>
                     <th>Precio</th>
                     <th>Descripción</th>
+                    <th>Acciones</th>
                 </tr>
                 <tr th:each="vehiculo : ${vehiculos}">
-                    <td th:text="${vehiculo.marca}">Marca</td>
-                    <td th:text="${vehiculo.modelo}">Modelo</td>
-                    <td th:text="${vehiculo.fecha}">Fecha</td>
-                    <td th:text="${vehiculo.kilometraje}">Kilometraje</td>
-                    <td th:text="${vehiculo.precio}">Precio</td>
-                    <td th:text="${vehiculo.descripcion}">Descripción</td>
+                    <td th:text="${vehiculo.marca}"></td>
+                    <td th:text="${vehiculo.modelo}"></td>
+                    <td th:text="${vehiculo.fecha}"></td>
+                    <td th:text="${vehiculo.kilometraje}"></td>
+                    <td th:text="${vehiculo.precio}"></td>
+                    <td th:text="${vehiculo.descripcion}"></td>
+                    <td>
+                        <button type="button" class="edit-button"
+                                th:data-id="${vehiculo.id}"
+                                th:data-marca="${vehiculo.marca}"
+                                th:data-modelo="${vehiculo.modelo}"
+                                th:data-fecha="${vehiculo.fecha}"
+                                th:data-kilometraje="${vehiculo.kilometraje}"
+                                th:data-precio="${vehiculo.precio}"
+                                th:data-descripcion="${vehiculo.descripcion}">
+                            Editar
+                        </button>
+                    </td>
                 </tr>
             </table>
         </div>
@@ -243,42 +254,63 @@
 <!-- Modal Registrar Vehículo -->
 <div id="modalRegistrar" class="modal">
     <div class="modal-content">
-        <span class="close">&times;</span>
+        <span class="close" id="closeRegistrar">&times;</span>
         <h2>Registro Vehículo</h2>
         <form th:action="@{/almacenar-vehiculo}" method="post" th:object="${elvehiculo}">
-            <label for="marca">Marca:</label>
-            <input type="text" th:field="*{marca}" id="marca" name="marca" required />
+            <label for="marcaRegistrar">Marca:</label>
+            <input type="text" th:field="*{marca}" id="marcaRegistrar" name="marca" required />
 
-            <label for="modelo">Modelo:</label>
-            <input type="text" th:field="*{modelo}" id="modelo" name="modelo" required />
+            <label for="modeloRegistrar">Modelo:</label>
+            <input type="text" th:field="*{modelo}" id="modeloRegistrar" name="modelo" required />
 
-            <label for="fecha">Fecha (DD/MM/YYYY):</label>
-            <input type="text" th:field="*{fecha}" id="fecha" name="fecha" required pattern="\d{2}/\d{2}/\d{4}"
-                   placeholder="DD/MM/YYYY" title="Formato: DD/MM/YYYY (ej. 28/01/2004)" />
+            <label for="fechaRegistrar">Fecha (DD/MM/YYYY):</label>
+            <input type="text" th:field="*{fecha}" id="fechaRegistrar" name="fecha" required
+                   pattern="\d{2}/\d{2}/\d{4}" placeholder="DD/MM/YYYY"
+                   title="Formato: DD/MM/YYYY (ej. 28/01/2004)" />
 
-            <label for="kilometraje">Kilometraje:</label>
-            <input type="text" th:field="*{kilometraje}" id="kilometraje" name="kilometraje" required />
+            <label for="kilometrajeRegistrar">Kilometraje:</label>
+            <input type="text" th:field="*{kilometraje}" id="kilometrajeRegistrar" name="kilometraje" required />
 
-            <label for="precio">Precio:</label>
-            <input type="text" th:field="*{precio}" id="precio" name="precio" required />
+            <label for="precioRegistrar">Precio:</label>
+            <input type="text" th:field="*{precio}" id="precioRegistrar" name="precio" required />
 
-            <label for="descripcion">Descripción:</label>
-            <textarea th:field="*{descripcion}" id="descripcion" name="descripcion" rows="3" required></textarea>
+            <label for="descripcionRegistrar">Descripción:</label>
+            <textarea th:field="*{descripcion}" id="descripcionRegistrar" name="descripcion" rows="3" required></textarea>
 
             <button type="submit">Registrar Vehículo</button>
         </form>
     </div>
 </div>
 
-<!-- Formulario para agregar imagen -->
-<div id="modalAgregarImagen" class="modal">
+<!-- Modal Editar Vehículo -->
+<div id="modalEditar" class="modal">
     <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2>Agregar Imagen al Vehículo</h2>
-        <form class="image-form" action="/agregar-imagen" method="post" enctype="multipart/form-data">
-            <label for="imagen">Seleccionar Imagen:</label>
-            <input type="file" id="imagen" name="imagen" accept="image/*" required />
-            <button type="submit">Subir Imagen</button>
+        <span class="close" id="closeEditar">&times;</span>
+        <h2>Editar Vehículo</h2>
+        <form th:action="@{/editar-vehiculo}" method="post" th:object="${elvehiculo}">
+            <input type="hidden" th:field="*{id}" id="idEditar" /> <!-- ID oculto -->
+
+            <label for="marcaEditar">Marca:</label>
+            <input type="text" th:field="*{marca}" id="marcaEditar" name="marca" required />
+
+            <label for="modeloEditar">Modelo:</label>
+            <input type="text" th:field="*{modelo}" id="modeloEditar" name="modelo" required />
+
+            <label for="fechaEditar">Fecha (DD/MM/YYYY):</label>
+            <input type="text" th:field="*{fecha}" id="fechaEditar" name="fecha" required
+                   pattern="\d{2}/\d{2}/\d{4}" placeholder="DD/MM/YYYY"
+                   title="Formato: DD/MM/YYYY (ej. 28/01/2004)" />
+
+            <label for="kilometrajeEditar">Kilometraje:</label>
+            <input type="text" th:field="*{kilometraje}" id="kilometrajeEditar" name="kilometraje" required />
+
+            <label for="precioEditar">Precio:</label>
+            <input type="text" th:field="*{precio}" id="precioEditar" name="precio" required />
+
+            <label for="descripcionEditar">Descripción:</label>
+            <textarea th:field="*{descripcion}" id="descripcionEditar" name="descripcion" rows="3" required></textarea>
+
+            <button type="submit">Guardar Cambios</button>
         </form>
     </div>
 </div>
@@ -286,40 +318,52 @@
 <script>
     var modalRegistrar = document.getElementById("modalRegistrar");
     var btnRegistrar = document.getElementById("btnRegistrar");
-    var spanRegistrar = document.getElementsByClassName("close")[0];
+    var closeRegistrar = document.getElementById("closeRegistrar");
 
-    var modalImagen = document.getElementById("modalAgregarImagen");
-    var btnImagen = document.getElementById("btnAgregarImagen");
-    var spanImagen = document.getElementsByClassName("close")[1];
+    var modalEditar = document.getElementById("modalEditar");
+    var closeEditar = document.getElementById("closeEditar");
 
-    // Mostrar modal de registro
-    btnRegistrar.onclick = function() {
+    // Abrir modal de registro
+    btnRegistrar.onclick = function () {
         modalRegistrar.style.display = "block";
     }
 
-    // Mostrar modal de agregar imagen
-    btnImagen.onclick = function() {
-        modalImagen.style.display = "block";
-    }
-
-    // Cerrar modales
-    spanRegistrar.onclick = function() {
+    // Cerrar modal de registro
+    closeRegistrar.onclick = function () {
         modalRegistrar.style.display = "none";
     }
 
-    spanImagen.onclick = function() {
-        modalImagen.style.display = "none";
+    // Abrir modal de edición con datos del vehículo seleccionado
+    document.addEventListener("click", function (event) {
+        if (event.target.classList.contains("edit-button")) {
+            var button = event.target;
+
+            document.getElementById("idEditar").value = button.getAttribute("data-id");
+            document.getElementById("marcaEditar").value = button.getAttribute("data-marca");
+            document.getElementById("modeloEditar").value = button.getAttribute("data-modelo");
+            document.getElementById("fechaEditar").value = button.getAttribute("data-fecha");
+            document.getElementById("kilometrajeEditar").value = button.getAttribute("data-kilometraje");
+            document.getElementById("precioEditar").value = button.getAttribute("data-precio");
+            document.getElementById("descripcionEditar").value = button.getAttribute("data-descripcion");
+
+            modalEditar.style.display = "block";
+        }
+    });
+
+    // Cerrar modal de edición
+    closeEditar.onclick = function () {
+        modalEditar.style.display = "none";
     }
 
-    window.onclick = function(event) {
+    window.onclick = function (event) {
         if (event.target == modalRegistrar) {
             modalRegistrar.style.display = "none";
         }
-        if (event.target == modalImagen) {
-            modalImagen.style.display = "none";
+        if (event.target == modalEditar) {
+            modalEditar.style.display = "none";
         }
     }
 </script>
-
 </body>
+
 </html>

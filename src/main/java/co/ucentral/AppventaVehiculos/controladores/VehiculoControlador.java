@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @AllArgsConstructor
@@ -16,13 +17,6 @@ public class VehiculoControlador {
 
     @Autowired
     VehiculoServicio vehiculoServicio;
-
-    // Carga el formulario de registro de vehículo
-    @GetMapping("/registro-vehiculo")
-    public String mostrarFormulario(Model model) {
-        model.addAttribute("vehiculo", new Vehiculo());
-        return "registro-vehiculo";
-    }
 
     // Maneja el envío del formulario y guarda el vehículo
     @PostMapping("/almacenar-vehiculo")
@@ -40,5 +34,23 @@ public class VehiculoControlador {
         model.addAttribute("elvehiculo", new Vehiculo());
         model.addAttribute("vehiculos", vehiculoServicio.obtenerTodosLosVehiculos()); // Obtener y mostrar vehículos
         return "pantallaVendedor"; // Renderizar la página
+    }
+    @GetMapping("/editar-vehiculo/{id}")
+    public String cargarVehiculoParaEdicion(@PathVariable Long id, Model model) {
+        Vehiculo vehiculo = vehiculoServicio.obtenerVehiculoPorId(id);
+        if (vehiculo == null) {
+            model.addAttribute("mensaje", "Vehículo no encontrado.");
+            return "redirect:/pantalla-vendedor";
+        }
+        model.addAttribute("elvehiculo", vehiculo);
+        return "pantallaVendedor";
+    }
+
+    @PostMapping("/editar-vehiculo")
+    public String editarVehiculo(@ModelAttribute("elvehiculo") Vehiculo vehiculo, Model model) {
+        vehiculoServicio.actualizarVehiculo(vehiculo);
+        model.addAttribute("mensaje", "Vehículo actualizado exitosamente");
+        model.addAttribute("vehiculos", vehiculoServicio.obtenerTodosLosVehiculos());
+        return "pantallaVendedor";
     }
 }

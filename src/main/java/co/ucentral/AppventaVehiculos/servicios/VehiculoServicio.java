@@ -19,6 +19,14 @@ public class VehiculoServicio {
         vehiculoRepositorio.save(vehiculo);
     }
 
+    public Vehiculo obtenerVehiculoPorId(Long id) {
+        return vehiculoRepositorio.findById(id).orElse(null);
+    }
+
+    public void actualizarVehiculo(Vehiculo vehiculo) {
+        vehiculoRepositorio.save(vehiculo); // `save` actualiza si el objeto tiene un ID existente
+    }
+
     public List<Vehiculo> obtenerTodosLosVehiculos() {
         return (List<Vehiculo>) vehiculoRepositorio.findAll();
     }
