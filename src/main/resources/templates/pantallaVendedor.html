@@ -337,9 +337,7 @@
             <input type="text" th:field="*{modelo}" id="modeloEditar" name="modelo" required />
 
             <label for="fechaEditar">Fecha (DD/MM/YYYY):</label>
-            <input type="text" th:field="*{fecha}" id="fechaEditar" name="fecha" required
-                   pattern="\d{2}/\d{2}/\d{4}" placeholder="DD/MM/YYYY"
-                   title="Formato: DD/MM/YYYY (ej. 28/01/2004)" />
+            <input type="date" id="fechaEditar" th:field="*{fecha}" required>
 
             <label for="kilometrajeEditar">Kilometraje:</label>
             <input type="text" th:field="*{kilometraje}" id="kilometrajeEditar" name="kilometraje" required />
