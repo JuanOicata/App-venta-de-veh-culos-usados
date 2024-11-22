@@ -72,6 +72,12 @@
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" name="nombre" required th:field="*{nombre}">
 
+        <label for="cedula">Cedula:</label>
+        <input type="text" id="cedula" name="cedula" required th:field="*{cedula}" pattern="\d*" title="Solo se permiten numeros">
+
+        <label for="telefono">Numero de celular:</label>
+        <input type="tel" id="telefono" name="telefono" required th:field="*{telefono}" pattern="\d*" title="Solo se permiten numeros">
+
         <label for="usuario">Usuario:</label>
         <input type="text" id="usuario" name="usuario" required th:field="*{usuario}">
 

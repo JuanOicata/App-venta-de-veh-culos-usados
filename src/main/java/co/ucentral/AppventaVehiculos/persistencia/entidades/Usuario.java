@@ -28,6 +28,12 @@ public class Usuario {
     @Column(name = "usu_nombre", nullable = false)
     private String nombre;
 
+    @Column(name = "usu_cedula", nullable = false)
+    private int cedula;
+
+    @Column(name = "usu_telefono", nullable = false)
+    private int telefono;
+
     @Column(name = "usu_rol", nullable = false)
     private String rol;
 }
