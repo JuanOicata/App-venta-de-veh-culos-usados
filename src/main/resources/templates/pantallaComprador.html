@@ -203,6 +203,44 @@
         .close-button:hover {
             background-color: #e60000;
         }
+        .alert {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #28a745; /* Color verde para éxito */
+    color: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 2000;
+    animation: fadeInOut 5s ease-in-out;
+}
+
+.alert p {
+    margin: 0;
+    padding-right: 10px;
+}
+
+.alert .close-alert {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translateY(-20px); }
+    10% { opacity: 1; transform: translateY(0); }
+    90% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-20px); }
+}
     </style>
 </head>
 <body>
@@ -239,65 +277,79 @@
                 <td th:text="${vehiculo.precio}"></td>
                 <td th:text="${vehiculo.descripcion}"></td>
                 <td>
-                    <button class="comprar-button" onclick="showModal()">Comprar</button>
+                    <form method="POST" action="/comprar-vehiculo">
+                        <input type="hidden" name="idVehiculo" th:value="${vehiculo.id}">
+                        <button type="button" class="comprar-button" th:onclick="'showModal(' + ${vehiculo.id} + ')'">Comprar</button>
+
+                    </form>
                 </td>
+
             </tr>
             </tbody>
         </table>
     </div>
 </div>
 
+<div th:if="${mensaje}" class="alert">
+    <p th:text="${mensaje}"></p>
+    <button class="close-alert" onclick="closeAlert()">×</button>
+</div>
+
 <!-- Ventana emergente -->
-<div id="modal" class="modal">
+<div id="modal" class="modal" style="display:none;">
     <div class="form-container">
         <button class="close-button" onclick="closeModal()">×</button>
-        <h2>Compra de vehículo</h2>
-        <form id="reservationForm" method="POST" action="/comprar-vehiculo">
+        <h2>Comprar Vehículo</h2>
+        <form id="purchaseForm" method="POST" action="/comprar-vehiculo">
             <!-- Campo oculto para enviar el ID del vehículo -->
             <input type="hidden" id="idVehiculo" name="idVehiculo" value="">
+
             <div class="form-group">
-                <label for="email">Correo Electrónico</label>
-                <input type="email" id="email" name="email" required>
+                <label for="direccion">Dirección de Entrega</label>
+                <input type="text" id="direccion" name="direccion" required>
             </div>
+
             <div class="form-group">
-                <label for="phone">Número de Teléfono</label>
-                <input type="tel" id="phone" name="phone" required>
-            </div>
-            <div class="form-group">
-                <label for="address">Dirección de Entrega</label>
-                <input type="text" id="address" name="address" required>
-            </div>
-            <div class="form-group">
-                <label for="paymentMethod">Forma de Pago</label>
-                <select id="paymentMethod" name="paymentMethod" required>
+                <label for="metodoPago">Método de Pago</label>
+                <select id="metodoPago" name="metodoPago" required>
                     <option value="tarjeta_credito">Tarjeta de Crédito</option>
                     <option value="tarjeta_debito">Tarjeta de Débito</option>
                     <option value="transferencia">Transferencia Bancaria</option>
                     <option value="efectivo">Efectivo</option>
                 </select>
             </div>
+
             <div class="form-group">
-                <label for="deliveryDate">Fecha de Entrega Deseada</label>
-                <input type="date" id="deliveryDate" name="deliveryDate" required>
+                <label for="fechaEntrega">Fecha de Entrega</label>
+                <input type="date" id="fechaEntrega" name="fechaEntrega" required>
             </div>
-            <button type="submit" class="submit-button">Comprar</button>
+
+            <button type="submit" class="submit-button">Confirmar Compra</button>
         </form>
     </div>
 </div>
 
 
 <script>
-    function showModal() {
-        document.getElementById("modal").style.display = "flex";
-    }
+    function showModal(idVehiculo) {
+      document.getElementById("modal").style.display = "flex";
+      document.getElementById("idVehiculo").value = idVehiculo; // Precargar el ID
+  }
 
-    function closeModal() {
-        document.getElementById("modal").style.display = "none";
-    }
+  function closeModal() {
+      document.getElementById("modal").style.display = "none";
+  }
 
-    document.getElementById("btnSalir").onclick = function () {
-        window.location.href = "/cerrar-sesion";
-    };
+  document.getElementById("btnSalir").onclick = function () {
+      window.location.href = "/cerrar-sesion";
+  };
+    function closeAlert() {
+    const alertBox = document.querySelector('.alert');
+    if (alertBox) {
+        alertBox.style.display = 'none';
+    }
+}
+
 
 </script>
 </body>

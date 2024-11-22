@@ -8,10 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -161,33 +158,30 @@ public class VehiculoControlador {
 
     /////////////VENTANA COMPRADOR/////////////////
 
-    @GetMapping("/comprar-vehiculo/{id}")
-    public String comprarVehiculo(@PathVariable Long id, Model model) {
-        boolean eliminado = vehiculoServicio.borrarVehiculo(id);
-
-        if (eliminado) {
-            model.addAttribute("mensaje", "Compra realizada con éxito. El vehículo ha sido eliminado.");
-        } else {
-            model.addAttribute("mensaje", "Error al procesar la compra del vehículo.");
-        }
-
-        // Actualizar la lista de vehículos
-        model.addAttribute("vehiculos", vehiculoServicio.obtenerTodosLosVehiculos());
-        return "redirect:/pantalla-comprador"; // Redirige a la pantalla del comprador
-    }
-
     @PostMapping("/comprar-vehiculo")
-    public String comprarVehiculoPost(@ModelAttribute("idVehiculo") Long id, Model model) {
-        boolean eliminado = vehiculoServicio.borrarVehiculo(id);
+    public String comprarVehiculo(@RequestParam("idVehiculo") Long idVehiculo, Model model, HttpServletRequest request) {
+        Usuario usuarioLogueado = (Usuario) request.getSession().getAttribute("usuario");
 
-        if (eliminado) {
-            model.addAttribute("mensaje", "Compra realizada con éxito. El vehículo ha sido eliminado.");
-        } else {
-            model.addAttribute("mensaje", "Error al procesar la compra del vehículo.");
+        if (usuarioLogueado == null) {
+            model.addAttribute("mensaje", "Debes iniciar sesión para realizar una compra.");
+            return "redirect:/inicio-sesion";
         }
 
-        model.addAttribute("vehiculos", vehiculoServicio.obtenerTodosLosVehiculos());
-        return "redirect:/pantalla-comprador";
+        boolean eliminado = vehiculoServicio.borrarVehiculo(idVehiculo);
+
+        if (eliminado) {
+            model.addAttribute("mensaje", "Compra realizada con éxito ☺.");
+        } else {
+            model.addAttribute("mensaje", "Error al realizar la compra. Inténtalo de nuevo.");
+        }
+
+        // Recargar los vehículos disponibles
+        List<Vehiculo> vehiculos = vehiculoServicio.obtenerTodosLosVehiculos();
+        model.addAttribute("vehiculos", vehiculos);
+
+        return "pantallaComprador";
     }
+
+
 
 }

@@ -29,7 +29,10 @@ public class Usuario {
     private String nombre;
 
     @Column(name = "usu_cedula", nullable = false)
-    private String cedula;
+    private int cedula;
+
+    @Column(name = "usu_telefono", nullable = false)
+    private int telefono;
 
     @Column(name = "usu_rol", nullable = false)
     private String rol;
