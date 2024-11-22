@@ -121,4 +121,35 @@ public class VehiculoControlador {
         return "pantallaComprador";
     }
 
+    /////////////VENTANA COMPRADOR/////////////////
+
+    @GetMapping("/comprar-vehiculo/{id}")
+    public String comprarVehiculo(@PathVariable Long id, Model model) {
+        boolean eliminado = vehiculoServicio.borrarVehiculo(id);
+
+        if (eliminado) {
+            model.addAttribute("mensaje", "Compra realizada con éxito. El vehículo ha sido eliminado.");
+        } else {
+            model.addAttribute("mensaje", "Error al procesar la compra del vehículo.");
+        }
+
+        // Actualizar la lista de vehículos
+        model.addAttribute("vehiculos", vehiculoServicio.obtenerTodosLosVehiculos());
+        return "redirect:/pantalla-comprador"; // Redirige a la pantalla del comprador
+    }
+
+    @PostMapping("/comprar-vehiculo")
+    public String comprarVehiculoPost(@ModelAttribute("idVehiculo") Long id, Model model) {
+        boolean eliminado = vehiculoServicio.borrarVehiculo(id);
+
+        if (eliminado) {
+            model.addAttribute("mensaje", "Compra realizada con éxito. El vehículo ha sido eliminado.");
+        } else {
+            model.addAttribute("mensaje", "Error al procesar la compra del vehículo.");
+        }
+
+        model.addAttribute("vehiculos", vehiculoServicio.obtenerTodosLosVehiculos());
+        return "redirect:/pantalla-comprador";
+    }
+
 }
