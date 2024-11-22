@@ -221,6 +221,7 @@
         <table border="1">
             <thead>
             <tr>
+                <th>Vendedor</th>
                 <th>Marca</th>
                 <th>Modelo</th>
                 <th>Fecha</th>
@@ -232,6 +233,7 @@
             </thead>
             <tbody>
             <tr th:each="vehiculo : ${vehiculos}">
+                <td th:text="${vehiculo.usuario.nombre}"></td>
                 <td th:text="${vehiculo.marca}"></td>
                 <td th:text="${vehiculo.modelo}"></td>
                 <td th:text="${vehiculo.fecha}"></td>

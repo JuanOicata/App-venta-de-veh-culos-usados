@@ -147,17 +147,23 @@ public class VehiculoControlador {
         // Redirigir a la página de inicio de sesión
         return "redirect:/inicio-sesion";
     }
+
+
+
+    /////////////VENTANA COMPRADOR/////////////////
     @GetMapping("/pantalla-comprador")
     public String mostrarFormularioDeComprador(Model model) {
-        // Obtener todos los vehículos y pasarlos al modelo
+        // Obtener todos los vehículos y cargar los datos del usuario
         List<Vehiculo> vehiculos = vehiculoServicio.obtenerTodosLosVehiculos();
+        vehiculos.forEach(vehiculo -> {
+            if (vehiculo.getUsuario() != null) {
+                vehiculo.getUsuario().getNombre(); // Forzar carga si es Lazy
+            }
+        });
         model.addAttribute("vehiculos", vehiculos);
 
         return "pantallaComprador";
     }
-
-    /////////////VENTANA COMPRADOR/////////////////
-
     @PostMapping("/comprar-vehiculo")
     public String comprarVehiculo(@RequestParam("idVehiculo") Long idVehiculo, Model model, HttpServletRequest request) {
         Usuario usuarioLogueado = (Usuario) request.getSession().getAttribute("usuario");

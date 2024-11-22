@@ -15,4 +15,6 @@ public interface VehiculoRepositorio extends CrudRepository<Vehiculo, Long> {
     @Query("SELECT v FROM Vehiculo v WHERE (:marca IS NULL OR v.marca LIKE %:marca%) AND (:modelo IS NULL OR v.modelo LIKE %:modelo%)")
     List<Vehiculo> buscarPorMarcaYModelo(@Param("marca") String marca, @Param("modelo") String modelo);
 
+    @Query("SELECT v FROM Vehiculo v JOIN FETCH v.usuario")
+    List<Vehiculo> findAllWithUsuarios();
 }

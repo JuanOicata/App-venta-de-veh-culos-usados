@@ -29,8 +29,16 @@ public class VehiculoServicio {
     }
 
     public List<Vehiculo> obtenerTodosLosVehiculos() {
-        return (List<Vehiculo>) vehiculoRepositorio.findAll();
+        List<Vehiculo> vehiculos = (List<Vehiculo>) vehiculoRepositorio.findAll();
+        // Forzar la carga de usuarios si es Lazy
+        vehiculos.forEach(vehiculo -> {
+            if (vehiculo.getUsuario() != null) {
+                vehiculo.getUsuario().getNombre();
+            }
+        });
+        return vehiculos;
     }
+
 
     // Obtener todos los vehículos
     public List<Vehiculo> obtenerTodos() {
