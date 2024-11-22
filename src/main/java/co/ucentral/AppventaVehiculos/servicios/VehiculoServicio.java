@@ -77,4 +77,7 @@ public class VehiculoServicio {
         return vehiculo != null && vehiculo.getUsuario().getUsuario().equals(usuario.getUsuario());
     }
 
+    public List<Vehiculo> buscarVehiculosPorMarcaYModelo(String marca, String modelo) {
+        return vehiculoRepositorio.buscarPorMarcaYModelo(marca, modelo);
+    }
 }

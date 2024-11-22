@@ -182,6 +182,14 @@ public class VehiculoControlador {
         return "pantallaComprador";
     }
 
+    @GetMapping("/buscar-vehiculos")
+    public String buscarVehiculos(@RequestParam(value = "marca", required = false) String marca,
+                                  @RequestParam(value = "modelo", required = false) String modelo,
+                                  Model model) {
+        List<Vehiculo> vehiculos = vehiculoServicio.buscarVehiculosPorMarcaYModelo(marca, modelo);
+        model.addAttribute("vehiculos", vehiculos);
+        return "pantallaComprador";
+    }
 
 
 }

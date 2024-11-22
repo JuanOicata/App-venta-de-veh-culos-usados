@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Gestión de Vehículos - Comprador</title>
     <style>
-        /* Estilos existentes */
+        /* Estilos generales */
         body {
             font-family: 'Arial', sans-serif;
             background-color: #f7f7f7;
@@ -114,7 +114,7 @@
             background-color: #218838;
         }
 
-        /* Estilos para la ventana emergente */
+        /* Ventanas emergentes */
         .modal {
             display: none;
             position: fixed;
@@ -128,7 +128,7 @@
             z-index: 1000;
         }
 
-        .form-container {
+        .modal-container {
             background-color: #fff;
             padding: 30px;
             border-radius: 8px;
@@ -137,7 +137,7 @@
             position: relative;
         }
 
-        .form-container h2 {
+        .modal-container h2 {
             text-align: center;
             color: #333;
             margin-bottom: 20px;
@@ -203,51 +203,13 @@
         .close-button:hover {
             background-color: #e60000;
         }
-        .alert {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background-color: #28a745; /* Color verde para éxito */
-    color: white;
-    padding: 15px 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    font-size: 16px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    z-index: 2000;
-    animation: fadeInOut 5s ease-in-out;
-}
-
-.alert p {
-    margin: 0;
-    padding-right: 10px;
-}
-
-.alert .close-alert {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 20px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-@keyframes fadeInOut {
-    0% { opacity: 0; transform: translateY(-20px); }
-    10% { opacity: 1; transform: translateY(0); }
-    90% { opacity: 1; transform: translateY(0); }
-    100% { opacity: 0; transform: translateY(-20px); }
-}
     </style>
 </head>
 <body>
 <div class="container">
     <!-- Sidebar -->
     <div class="sidebar">
-        <button id="btnBuscar">Buscar Vehículo</button>
+        <button id="btnBuscar" onclick="showSearchModal()">Buscar Vehículo</button>
         <button id="btnSalir">Cerrar sesión</button>
     </div>
 
@@ -279,36 +241,46 @@
                 <td>
                     <form method="POST" action="/comprar-vehiculo">
                         <input type="hidden" name="idVehiculo" th:value="${vehiculo.id}">
-                        <button type="button" class="comprar-button" th:onclick="'showModal(' + ${vehiculo.id} + ')'">Comprar</button>
+                        <button type="button" class="comprar-button" th:onclick="'showPurchaseModal(' + ${vehiculo.id} + ')'">Comprar</button>
 
                     </form>
                 </td>
-
             </tr>
             </tbody>
         </table>
     </div>
 </div>
 
-<div th:if="${mensaje}" class="alert">
-    <p th:text="${mensaje}"></p>
-    <button class="close-alert" onclick="closeAlert()">×</button>
+<!-- Modal de búsqueda -->
+<div id="searchModal" class="modal">
+    <div class="modal-container">
+        <button class="close-button" onclick="closeSearchModal()">×</button>
+        <h2>Buscar Vehículo</h2>
+        <form method="GET" action="/buscar-vehiculos">
+            <div class="form-group">
+                <label for="marca">Marca</label>
+                <input type="text" id="marca" name="marca" placeholder="Ingrese la marca">
+            </div>
+            <div class="form-group">
+                <label for="modelo">Modelo</label>
+                <input type="text" id="modelo" name="modelo" placeholder="Ingrese el modelo">
+            </div>
+            <button type="submit" class="submit-button">Buscar</button>
+        </form>
+    </div>
 </div>
 
-<!-- Ventana emergente -->
-<div id="modal" class="modal" style="display:none;">
-    <div class="form-container">
-        <button class="close-button" onclick="closeModal()">×</button>
+<!-- Modal de compra -->
+<div id="purchaseModal" class="modal">
+    <div class="modal-container">
+        <button class="close-button" onclick="closePurchaseModal()">×</button>
         <h2>Comprar Vehículo</h2>
         <form id="purchaseForm" method="POST" action="/comprar-vehiculo">
-            <!-- Campo oculto para enviar el ID del vehículo -->
             <input type="hidden" id="idVehiculo" name="idVehiculo" value="">
-
             <div class="form-group">
                 <label for="direccion">Dirección de Entrega</label>
                 <input type="text" id="direccion" name="direccion" required>
             </div>
-
             <div class="form-group">
                 <label for="metodoPago">Método de Pago</label>
                 <select id="metodoPago" name="metodoPago" required>
@@ -318,39 +290,36 @@
                     <option value="efectivo">Efectivo</option>
                 </select>
             </div>
-
             <div class="form-group">
                 <label for="fechaEntrega">Fecha de Entrega</label>
                 <input type="date" id="fechaEntrega" name="fechaEntrega" required>
             </div>
-
             <button type="submit" class="submit-button">Confirmar Compra</button>
         </form>
     </div>
 </div>
 
-
 <script>
-    function showModal(idVehiculo) {
-      document.getElementById("modal").style.display = "flex";
-      document.getElementById("idVehiculo").value = idVehiculo; // Precargar el ID
-  }
-
-  function closeModal() {
-      document.getElementById("modal").style.display = "none";
-  }
-
-  document.getElementById("btnSalir").onclick = function () {
-      window.location.href = "/cerrar-sesion";
-  };
-    function closeAlert() {
-    const alertBox = document.querySelector('.alert');
-    if (alertBox) {
-        alertBox.style.display = 'none';
+    function showSearchModal() {
+        document.getElementById("searchModal").style.display = "flex";
     }
-}
 
+    function closeSearchModal() {
+        document.getElementById("searchModal").style.display = "none";
+    }
 
+    function showPurchaseModal(idVehiculo) {
+        document.getElementById("purchaseModal").style.display = "flex";
+        document.getElementById("idVehiculo").value = idVehiculo;
+    }
+
+    function closePurchaseModal() {
+        document.getElementById("purchaseModal").style.display = "none";
+    }
+
+    document.getElementById("btnSalir").onclick = function () {
+        window.location.href = "/cerrar-sesion";
+    };
 </script>
 </body>
 </html>
