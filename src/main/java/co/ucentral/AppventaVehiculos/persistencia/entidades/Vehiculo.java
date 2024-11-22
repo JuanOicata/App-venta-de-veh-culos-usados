@@ -50,4 +50,7 @@ public class Vehiculo {
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
+
+    @Column(name = "veh_disponible", nullable = false)
+    private boolean disponible = true;
 }

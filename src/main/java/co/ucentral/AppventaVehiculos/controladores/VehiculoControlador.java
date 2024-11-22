@@ -56,51 +56,89 @@ public class VehiculoControlador {
     // Método para mostrar la página inicial del vendedor con la lista de vehículos
     @GetMapping("/pantalla-vendedor")
     public String mostrarFormularioDeVendedor(Model model, HttpServletRequest request) {
-        // Obtener el usuario logueado de la sesión
         Usuario usuarioLogueado = (Usuario) request.getSession().getAttribute("usuario");
 
         if (usuarioLogueado != null) {
-            // Obtener solo los vehículos del vendedor logueado
-            model.addAttribute("vehiculos", vehiculoServicio.obtenerVehiculosPorUsuario(usuarioLogueado));
+            // Obtener vehículos solo del usuario logueado
+            List<Vehiculo> vehiculos = vehiculoServicio.obtenerVehiculosPorUsuario(usuarioLogueado);
+            model.addAttribute("vehiculos", vehiculos);
+            if (vehiculos.isEmpty()) {
+                model.addAttribute("mensaje", "Aún no has registrado ningún vehículo.");
+            }
+        } else {
+            model.addAttribute("mensaje", "Debes iniciar sesión para acceder a esta página.");
+            return "redirect:/inicio-sesion";
         }
 
         model.addAttribute("elvehiculo", new Vehiculo());
-        return "pantallaVendedor"; // Renderizar la página
-    }
-
-    @GetMapping("/editar-vehiculo/{id}")
-    public String cargarVehiculoParaEdicion(@PathVariable Long id, Model model) {
-        Vehiculo vehiculo = vehiculoServicio.obtenerVehiculoPorId(id);
-        if (vehiculo == null) {
-            model.addAttribute("mensaje", "Vehículo no encontrado.");
-            return "redirect:/pantalla-vendedor";
-        }
-        model.addAttribute("elvehiculo", vehiculo);
         return "pantallaVendedor";
     }
 
+
+    @GetMapping("/editar-vehiculo/{id}")
+    public String cargarVehiculoParaEdicion(@PathVariable Long id, Model model, HttpServletRequest request) {
+        Usuario usuarioLogueado = (Usuario) request.getSession().getAttribute("usuario");
+
+        if (usuarioLogueado != null && vehiculoServicio.validarPropiedadVehiculo(id, usuarioLogueado)) {
+            Vehiculo vehiculo = vehiculoServicio.obtenerVehiculoPorId(id);
+            model.addAttribute("elvehiculo", vehiculo);
+            return "pantallaVendedor";
+        }
+
+        model.addAttribute("mensaje", "No tienes permiso para editar este vehículo.");
+        return "redirect:/pantalla-vendedor";
+    }
+
     @PostMapping("/editar-vehiculo")
-    public String editarVehiculo(@ModelAttribute("elvehiculo") Vehiculo vehiculo, Model model) {
+    public String editarVehiculo(@ModelAttribute("elvehiculo") Vehiculo vehiculo, HttpServletRequest request, Model model) {
+        Usuario usuarioLogueado = (Usuario) request.getSession().getAttribute("usuario");
+
+        if (usuarioLogueado == null) {
+            model.addAttribute("mensaje", "Debes iniciar sesión para realizar esta acción.");
+            return "redirect:/inicio-sesion";
+        }
+
+        // Obtener el vehículo actual de la base de datos
+        Vehiculo vehiculoExistente = vehiculoServicio.obtenerVehiculoPorId(vehiculo.getId());
+
+        if (vehiculoExistente == null) {
+            model.addAttribute("mensaje", "El vehículo no existe.");
+            return "redirect:/pantalla-vendedor";
+        }
+
+        // Validar que el vehículo pertenece al usuario logueado
+        if (!vehiculoExistente.getUsuario().getUsuario().equals(usuarioLogueado.getUsuario())) {
+            model.addAttribute("mensaje", "No puedes editar un vehículo que no te pertenece.");
+            return "redirect:/pantalla-vendedor";
+        }
+
+        // Conservar el usuario asociado al vehículo
+        vehiculo.setUsuario(vehiculoExistente.getUsuario());
+
+        // Actualizar el vehículo con los nuevos datos
         vehiculoServicio.actualizarVehiculo(vehiculo);
-        model.addAttribute("mensaje", "Vehículo actualizado exitosamente");
-        model.addAttribute("vehiculos", vehiculoServicio.obtenerTodosLosVehiculos());
+
+        // Mostrar solo los vehículos del usuario logueado
+        model.addAttribute("vehiculos", vehiculoServicio.obtenerVehiculosPorUsuario(usuarioLogueado));
+        model.addAttribute("mensaje", "Vehículo actualizado exitosamente.");
+
         return "pantallaVendedor";
     }
     // Eliminar un vehículo
     @GetMapping("/eliminar-vehiculo/{id}")
-    public String eliminarVehiculo(@PathVariable Long id, Model model) {
-        boolean eliminado = vehiculoServicio.borrarVehiculo(id);
+    public String eliminarVehiculo(@PathVariable Long id, Model model, HttpServletRequest request) {
+        Usuario usuarioLogueado = (Usuario) request.getSession().getAttribute("usuario");
 
-        if (eliminado) {
-            model.addAttribute("mensaje", "Vehículo eliminado exitosamente");
+        if (usuarioLogueado != null && vehiculoServicio.validarPropiedadVehiculo(id, usuarioLogueado)) {
+            boolean eliminado = vehiculoServicio.borrarVehiculo(id);
+            model.addAttribute("mensaje", eliminado ? "Vehículo eliminado exitosamente" : "Error al eliminar el vehículo");
         } else {
-            model.addAttribute("mensaje", "Error al eliminar el vehículo");
+            model.addAttribute("mensaje", "No tienes permiso para eliminar este vehículo.");
         }
 
-        // Obtener la lista actualizada de vehículos
-        model.addAttribute("vehiculos", vehiculoServicio.obtenerTodosLosVehiculos());
-        return "redirect:/pantalla-vendedor"; // Volver a la página del vendedor con la lista actualizada
+        return "redirect:/pantalla-vendedor";
     }
+
 
 
     /////////// PANTALLA VENDEDOR /////////////////

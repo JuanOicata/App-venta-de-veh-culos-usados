@@ -25,7 +25,7 @@ public class VehiculoServicio {
     }
 
     public void actualizarVehiculo(Vehiculo vehiculo) {
-        vehiculoRepositorio.save(vehiculo); // `save` actualiza si el objeto tiene un ID existente
+        vehiculoRepositorio.save(vehiculo); // Esto actualiza el vehículo si el ID ya existe
     }
 
     public List<Vehiculo> obtenerTodosLosVehiculos() {
@@ -57,4 +57,24 @@ public class VehiculoServicio {
     public List<Vehiculo> obtenerVehiculosPorUsuario(Usuario usuario) {
         return vehiculoRepositorio.findByUsuario(usuario);
     }
+    // Agregar un método para obtener vehículos disponibles para compradores
+    public List<Vehiculo> obtenerVehiculosDisponibles() {
+        // Aquí puedes filtrar por estado (ejemplo: vehículos no vendidos o disponibles)
+        return (List<Vehiculo>) vehiculoRepositorio.findAll(); // Reemplazar con lógica específica si aplicable
+    }
+
+    public boolean marcarComoVendido(Long id) {
+        Vehiculo vehiculo = vehiculoRepositorio.findById(id).orElse(null);
+        if (vehiculo != null) {
+            vehiculo.setDisponible(false); // Cambiar el estado
+            vehiculoRepositorio.save(vehiculo);
+            return true;
+        }
+        return false;
+    }
+    public boolean validarPropiedadVehiculo(Long vehiculoId, Usuario usuario) {
+        Vehiculo vehiculo = vehiculoRepositorio.findById(vehiculoId).orElse(null);
+        return vehiculo != null && vehiculo.getUsuario().getUsuario().equals(usuario.getUsuario());
+    }
+
 }

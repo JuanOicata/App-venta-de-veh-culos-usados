@@ -9,4 +9,5 @@ import java.util.List;
 
 public interface VehiculoRepositorio extends CrudRepository<Vehiculo, Long> {
     List<Vehiculo> findByUsuario(Usuario usuario);
+    List<Vehiculo> findByDisponibleTrue(); // Supongamos que tienes un campo `disponible` en Vehiculo
 }
